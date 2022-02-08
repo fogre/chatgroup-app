@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@components/*": ["components/*"],
+      "@styles/*": ["styles/*"],
+      "@utils/*": ["utils/*"],
+      "@constants": ["utils/constants.js"],
+      "@graphql": ["graphql/index.js"],
+      "@context": ["context/index.js"],
+      "@apiServices": ["apiService/index.js"]
+    }
+  }
+}

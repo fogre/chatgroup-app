@@ -1,0 +1,103 @@
+# This "input" configures a global authorization rule to enable public access to
+# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
+
+type Message
+  @model
+  @auth(
+    rules: [
+      { allow: owner }
+      { allow: private, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  content: String!
+  owner: String!
+  createdAt: AWSDateTime!
+  channelMessagesId: ID!
+    @index(name: "messagesByChannel", queryField: "messagesByChannel", sortKeyFields: ["createdAt"])
+  user: Member! @hasOne
+}
+
+type Channel
+  @model
+  @auth(
+    rules: [
+      { allow: owner }
+      { allow: private, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  name: String! @index(name: "byName", queryField: "channelByName", sortKeyFields: ["id"])
+  description: String
+  messages: [Message] @hasMany
+}
+
+type Member
+  @model
+  @auth(
+    rules: [
+      { allow: owner }
+      { allow: private, operations: [read] }
+      { allow: public, provider: iam, operations: [read] }
+    ]
+  ) {
+    id: ID!
+    username: String!
+    avatarColor: String
+    avatarUrl: AWSURL
+    channelMembersId: ID
+    publicChannelMembersId: ID
+  }
+
+type PublicMessage
+  @model
+  @auth(
+    rules: [
+    	{ allow: owner }
+      { allow: private, operations: [read] }
+      { allow: public, provider: iam, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  createdAt: String!
+  content: String!
+  publicChannelMessagesId: ID!
+    @index(name: "publicMessagesByChannel", queryField: "publicMessagesByChannel", sortKeyFields: ["createdAt"])
+  user: Member! @hasOne
+  expirationTime: AWSTimestamp
+}
+
+type PublicChannel
+  @model
+  @auth(
+    rules: [
+      { allow: owner }
+      { allow: private, operations: [read] }
+      { allow: public, provider: iam, operations: [read] }
+    ]
+  ) {
+  id: ID!
+  name: String! @index(name: "byName", queryField: "publicChannelByName", sortKeyFields: ["id"])
+  description: String
+  messages: [PublicMessage] @hasMany
+}
+
+type Subscription {
+  onPublicMessageByPublicChannel(publicChannelMessagesId: ID!): PublicMessage
+    @aws_subscribe(mutations: ["createPublicMessage"])
+    @aws_iam
+    @aws_cognito_user_pools
+
+  onMembersByPublicChannel(publicChannelMembersId: ID!): Member
+    @aws_subscribe(mutations: ["createMember", "updateMember"])
+    @aws_iam
+    @aws_cognito_user_pools
+
+  onMessageByChannel(channelMessagesId: ID!): Message
+    @aws_subscribe(mutations: ["createMessage"])
+    @aws_cognito_user_pools
+
+  onMembersByChannel(channelMembersId: ID!): Member
+    @aws_subscribe(mutations: ["createMember", "updateMember"])
+    @aws_cognito_user_pools
+}
