@@ -11,12 +11,11 @@ import MessageList from '@components/MessageList'
 export const ChannelPageLayout = ({ currentChannel, channelMessages, isPrivateChannel }) => (
   <MemberProvider
     currentChannel={currentChannel}
-    messages={channelMessages}
+    channelMessages={channelMessages}
     isPrivateChannel={isPrivateChannel}
   >
     <>
       <Nav>
-        {currentChannel.name}
         <MembersList />
         <br/><br/>
         <ChannelLists />

@@ -4,22 +4,24 @@ import styled from 'styled-components'
 
 import awsconfig from '../aws-exports'
 
+import { UserProvider } from '@context'
+
 
 Amplify.configure({
   ...awsconfig,
   ssr: true
 })
 
-const App = ({ Component, pageProps }) =>{
+const App = ({ Component, pageProps }) => {
   return (
     <AmplifyProvider>
       <Authenticator.Provider>
-
+        <UserProvider>
           <GridLayoutWrapper>
             <Component {...pageProps} />
           </GridLayoutWrapper>
-
-      </Authenticator.Provider>  
+        </UserProvider>
+      </Authenticator.Provider>
     </AmplifyProvider>
   )
 }

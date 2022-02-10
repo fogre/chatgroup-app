@@ -9,7 +9,6 @@ export const createMessage = /* GraphQL */ `
     createMessage(input: $input, condition: $condition) {
       id
       content
-      owner
       createdAt
       channelMessagesId
       user {
@@ -25,6 +24,7 @@ export const createMessage = /* GraphQL */ `
       }
       updatedAt
       messageUserId
+      owner
     }
   }
 `;
@@ -36,7 +36,6 @@ export const updateMessage = /* GraphQL */ `
     updateMessage(input: $input, condition: $condition) {
       id
       content
-      owner
       createdAt
       channelMessagesId
       user {
@@ -52,6 +51,7 @@ export const updateMessage = /* GraphQL */ `
       }
       updatedAt
       messageUserId
+      owner
     }
   }
 `;
@@ -63,7 +63,6 @@ export const deleteMessage = /* GraphQL */ `
     deleteMessage(input: $input, condition: $condition) {
       id
       content
-      owner
       createdAt
       channelMessagesId
       user {
@@ -79,6 +78,7 @@ export const deleteMessage = /* GraphQL */ `
       }
       updatedAt
       messageUserId
+      owner
     }
   }
 `;
@@ -95,11 +95,11 @@ export const createChannel = /* GraphQL */ `
         items {
           id
           content
-          owner
           createdAt
           channelMessagesId
           updatedAt
           messageUserId
+          owner
         }
         nextToken
       }
@@ -122,11 +122,11 @@ export const updateChannel = /* GraphQL */ `
         items {
           id
           content
-          owner
           createdAt
           channelMessagesId
           updatedAt
           messageUserId
+          owner
         }
         nextToken
       }
@@ -149,11 +149,11 @@ export const deleteChannel = /* GraphQL */ `
         items {
           id
           content
-          owner
           createdAt
           channelMessagesId
           updatedAt
           messageUserId
+          owner
         }
         nextToken
       }

@@ -4,7 +4,7 @@ import { queries } from '@graphql'
 
 import { ChannelPageLayout } from '@components/Layout'
 
-const Home = ({ currentChannel, channelMessages, isPrivateChannel })  => {
+const PubliChannel = ({ currentChannel, channelMessages, isPrivateChannel })  => {
   console.log(currentChannel, channelMessages)
 
   return (
@@ -16,10 +16,10 @@ const Home = ({ currentChannel, channelMessages, isPrivateChannel })  => {
   )
 }
 
-export async function getServerSideProps({ req, resolvedUrl }) {
+export async function getServerSideProps({ req, params }) {
   const isPrivateChannel = false
   const SSR = withSSRContext({ req })
-  const publicChannelId = 'a787dda4-359d-48f6-ab15-22e84ff36e40'
+  const channelId = params.pid
   let authMode
 
   /*
@@ -36,14 +36,14 @@ export async function getServerSideProps({ req, resolvedUrl }) {
   try {
     const channelRes = await SSR.API.graphql({
       query: queries.getPublicChannel,
-      variables: { id: publicChannelId },
+      variables: { id: channelId },
       authMode
     })
 
     const messagesRes = await SSR.API.graphql({
       query: queries.publicMessagesByChannel,
       variables: {
-        publicChannelMessagesId: publicChannelId,
+        publicChannelMessagesId: channelId,
         limit: 50,
         sortDirection: 'DESC'
       },
@@ -69,4 +69,4 @@ export async function getServerSideProps({ req, resolvedUrl }) {
   }
 }
 
-export default Home
+export default PubliChannel

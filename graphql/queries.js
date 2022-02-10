@@ -6,7 +6,6 @@ export const getMessage = /* GraphQL */ `
     getMessage(id: $id) {
       id
       content
-      owner
       createdAt
       channelMessagesId
       user {
@@ -22,6 +21,7 @@ export const getMessage = /* GraphQL */ `
       }
       updatedAt
       messageUserId
+      owner
     }
   }
 `;
@@ -35,7 +35,6 @@ export const listMessages = /* GraphQL */ `
       items {
         id
         content
-        owner
         createdAt
         channelMessagesId
         user {
@@ -51,51 +50,6 @@ export const listMessages = /* GraphQL */ `
         }
         updatedAt
         messageUserId
-      }
-      nextToken
-    }
-  }
-`;
-export const getChannel = /* GraphQL */ `
-  query GetChannel($id: ID!) {
-    getChannel(id: $id) {
-      id
-      name
-      description
-      messages {
-        items {
-          id
-          content
-          owner
-          createdAt
-          channelMessagesId
-          updatedAt
-          messageUserId
-        }
-        nextToken
-      }
-      createdAt
-      updatedAt
-      owner
-    }
-  }
-`;
-export const listChannels = /* GraphQL */ `
-  query ListChannels(
-    $filter: ModelChannelFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listChannels(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        name
-        description
-        messages {
-          nextToken
-        }
-        createdAt
-        updatedAt
         owner
       }
       nextToken
@@ -122,7 +76,6 @@ export const messagesByChannel = /* GraphQL */ `
       items {
         id
         content
-        owner
         createdAt
         channelMessagesId
         user {
@@ -138,6 +91,53 @@ export const messagesByChannel = /* GraphQL */ `
         }
         updatedAt
         messageUserId
+        owner
+      }
+      nextToken
+    }
+  }
+`;
+export const getChannel = /* GraphQL */ `
+  query GetChannel($id: ID!) {
+    getChannel(id: $id) {
+      id
+      name
+      description
+      messages {
+        items {
+          id
+          content
+          createdAt
+          channelMessagesId
+          updatedAt
+          messageUserId
+          owner
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const listChannels = /* GraphQL */ `
+  query ListChannels(
+    $filter: ModelChannelFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listChannels(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        description
+        messages {
+          nextToken
+        }
+        createdAt
+        updatedAt
+        owner
       }
       nextToken
     }

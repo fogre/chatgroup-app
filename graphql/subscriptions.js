@@ -48,7 +48,6 @@ export const onMessageByChannel = /* GraphQL */ `
     onMessageByChannel(channelMessagesId: $channelMessagesId) {
       id
       content
-      owner
       createdAt
       channelMessagesId
       user {
@@ -64,6 +63,7 @@ export const onMessageByChannel = /* GraphQL */ `
       }
       updatedAt
       messageUserId
+      owner
     }
   }
 `;
@@ -87,7 +87,6 @@ export const onCreateMessage = /* GraphQL */ `
     onCreateMessage(owner: $owner) {
       id
       content
-      owner
       createdAt
       channelMessagesId
       user {
@@ -103,6 +102,7 @@ export const onCreateMessage = /* GraphQL */ `
       }
       updatedAt
       messageUserId
+      owner
     }
   }
 `;
@@ -111,7 +111,6 @@ export const onUpdateMessage = /* GraphQL */ `
     onUpdateMessage(owner: $owner) {
       id
       content
-      owner
       createdAt
       channelMessagesId
       user {
@@ -127,6 +126,7 @@ export const onUpdateMessage = /* GraphQL */ `
       }
       updatedAt
       messageUserId
+      owner
     }
   }
 `;
@@ -135,7 +135,6 @@ export const onDeleteMessage = /* GraphQL */ `
     onDeleteMessage(owner: $owner) {
       id
       content
-      owner
       createdAt
       channelMessagesId
       user {
@@ -151,6 +150,7 @@ export const onDeleteMessage = /* GraphQL */ `
       }
       updatedAt
       messageUserId
+      owner
     }
   }
 `;
@@ -164,11 +164,11 @@ export const onCreateChannel = /* GraphQL */ `
         items {
           id
           content
-          owner
           createdAt
           channelMessagesId
           updatedAt
           messageUserId
+          owner
         }
         nextToken
       }
@@ -188,11 +188,11 @@ export const onUpdateChannel = /* GraphQL */ `
         items {
           id
           content
-          owner
           createdAt
           channelMessagesId
           updatedAt
           messageUserId
+          owner
         }
         nextToken
       }
@@ -212,11 +212,11 @@ export const onDeleteChannel = /* GraphQL */ `
         items {
           id
           content
-          owner
           createdAt
           channelMessagesId
           updatedAt
           messageUserId
+          owner
         }
         nextToken
       }

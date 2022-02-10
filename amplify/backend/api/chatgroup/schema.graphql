@@ -11,7 +11,6 @@ type Message
   ) {
   id: ID!
   content: String!
-  owner: String!
   createdAt: AWSDateTime!
   channelMessagesId: ID!
     @index(name: "messagesByChannel", queryField: "messagesByChannel", sortKeyFields: ["createdAt"])
@@ -89,7 +88,7 @@ type Subscription {
     @aws_cognito_user_pools
 
   onMembersByPublicChannel(publicChannelMembersId: ID!): Member
-    @aws_subscribe(mutations: ["createMember", "updateMember"])
+    @aws_subscribe(mutations: ["updateMember"])
     @aws_iam
     @aws_cognito_user_pools
 
@@ -98,6 +97,6 @@ type Subscription {
     @aws_cognito_user_pools
 
   onMembersByChannel(channelMembersId: ID!): Member
-    @aws_subscribe(mutations: ["createMember", "updateMember"])
+    @aws_subscribe(mutations: ["updateMember"])
     @aws_cognito_user_pools
 }

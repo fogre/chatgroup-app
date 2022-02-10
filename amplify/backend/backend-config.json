@@ -45,5 +45,21 @@
         }
       }
     }
+  },
+  "function": {
+    "chatgroupCreateMemberOnSingUp": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "api",
+          "resourceName": "chatgroup",
+          "attributes": [
+            "GraphQLAPIIdOutput"
+          ]
+        }
+      ]
+    }
   }
 }

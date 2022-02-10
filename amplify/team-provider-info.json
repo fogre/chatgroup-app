@@ -14,6 +14,12 @@
     "categories": {
       "auth": {
         "chatgroup104d051b": {}
+      },
+      "function": {
+        "chatgroupCreateMemberOnSingUp": {
+          "deploymentBucketName": "amplify-chatgroup-dev-161126-deployment",
+          "s3Key": "amplify-builds/chatgroupCreateMemberOnSingUp-65636d38692b46427243-build.zip"
+        }
       }
     }
   }
