@@ -50,6 +50,15 @@ export async function getServerSideProps({ req, params }) {
       authMode
     })
 
+    if (!channelRes.data.getPublicChannel) {
+      return {
+        redirect: {
+          permanent: false,
+          destination: '/404',
+        }
+      }
+    }
+
     return {
       props: {
         isPrivateChannel,
@@ -60,11 +69,10 @@ export async function getServerSideProps({ req, params }) {
   } catch (error) {
     console.log(error)
     return {
-      props: {
-        isPrivateChannel,
-        currentChannel: {},
-        channelMessages: []
-      },
+      redirect: {
+        permanent: false,
+        destination: '/404',
+      }
     }
   }
 }

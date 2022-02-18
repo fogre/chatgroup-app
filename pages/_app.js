@@ -1,11 +1,12 @@
 import Amplify from 'aws-amplify'
-import { AmplifyProvider, Authenticator } from '@aws-amplify/ui-react'
+import { Authenticator } from '@aws-amplify/ui-react'
 import styled from 'styled-components'
 
 import awsconfig from '../aws-exports'
-
 import { UserProvider } from '@context'
 
+import GlobalStyles from '@components/GlobalStyles'
+import { GridLayoutWrapper } from '@components/Layout'
 
 Amplify.configure({
   ...awsconfig,
@@ -14,23 +15,15 @@ Amplify.configure({
 
 const App = ({ Component, pageProps }) => {
   return (
-    <AmplifyProvider>
-      <Authenticator.Provider>
+    <Authenticator.Provider>
+      <GlobalStyles />
+      <GridLayoutWrapper>
         <UserProvider>
-          <GridLayoutWrapper>
-            <Component {...pageProps} />
-          </GridLayoutWrapper>
+          <Component {...pageProps} />
         </UserProvider>
-      </Authenticator.Provider>
-    </AmplifyProvider>
+      </GridLayoutWrapper>
+    </Authenticator.Provider>
   )
 }
-
-const GridLayoutWrapper = styled.div`
-  display: grid;
-  grid-template-areas: 'nav main';
-  width: 100%;
-  height: 100vh;
-`
 
 export default App

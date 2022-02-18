@@ -19,6 +19,11 @@ export const UserProvider = ({ children }) => {
     if (route === 'authenticated') {
       setLoggedUser()
     }
+
+    if (route === 'signOut') {
+      setAuthMode('AWS_IAM')
+      setUser(null)
+    }
   }, [route])
 
   const setLoggedUser = async () => {

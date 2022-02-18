@@ -1,6 +1,6 @@
 projects:
   chatgroup:
-    schemaPath: graphql/schema.json
+    schemaPath: amplify/backend/api/chatgroup/build/schema.graphql
     includes:
       - graphql/*.js
     excludes:

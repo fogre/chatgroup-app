@@ -26,7 +26,16 @@ export async function getServerSideProps({ req, params }) {
   */
   try {
     await SSR.Auth.currentAuthenticatedUser()
-
+  } catch (e) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/signup',
+      }
+    }
+  }
+  //fetch data
+  try {
     const channelRes = await SSR.API.graphql({
       query: queries.getChannel,
       variables: { id: channelId },
@@ -43,6 +52,15 @@ export async function getServerSideProps({ req, params }) {
       authMode
     })
 
+    if (!channelRes.data || !channelRes.data.getChannel) {
+      return {
+        redirect: {
+          permanent: false,
+          destination: '/404',
+        }
+      }
+    }
+
     return {
       props: {
         isPrivateChannel,
@@ -55,7 +73,7 @@ export async function getServerSideProps({ req, params }) {
     return {
       redirect: {
         permanent: false,
-        destination: '/signup',
+        destination: '/404',
       }
     }
   }
