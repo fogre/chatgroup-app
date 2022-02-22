@@ -43,7 +43,7 @@ type Member
     id: ID!
     username: String!
     avatarColor: String
-    avatarUrl: AWSURL
+    avatarUrl: String
     channelMembersId: ID
     publicChannelMembersId: ID
   }

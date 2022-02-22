@@ -35,7 +35,9 @@ const MessageInput = ({ currentChannel, isPrivateChannel }) => {
 
   if (authMode === 'AWS_IAM') {
     return (
-      <p>Please login to participate</p>
+      <Wrapper>
+        <p>Please login to participate</p>
+      </Wrapper>
     )
   }
 

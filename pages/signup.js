@@ -148,13 +148,13 @@ const StyledAuthenticator = styled(Authenticator)`
     text-align: center;
     color: ${COLORS.danger};
 
+    button {
+      width: 20px;
+    }
+
     .amplify-icon {
       align-self: start;
       color: inherit;
-    }
-
-    button {
-      width: 20px;
     }
   }
 `

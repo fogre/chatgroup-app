@@ -79,7 +79,7 @@ const ChannelList = ({ currentChannel, isPrivate, changeNavView }) => {
   }, [isPrivate, authMode])
 
   return (
-    <NavContent>
+    <>
       {isPrivate
         ? <Heading>Member channels</Heading>
         : <Heading>Public channels</Heading>}
@@ -95,7 +95,7 @@ const ChannelList = ({ currentChannel, isPrivate, changeNavView }) => {
           </li>
         )}
       </UnorderedList>
-    </NavContent>
+    </>
   )
 }
 
@@ -130,15 +130,17 @@ const ChannelLists = ({ currentChannel, changeNavView }) => {
         <Heading>Channels</Heading>
       </HeaderWrapper>
       <ListWrapper>
-        <ChannelList
-          isPrivate={false}
-          currentChannel={currentChannel}
-          changeNavView={changeNavView}
-        />
-        <MembersOnlyChannels
-          currentChannel={currentChannel}
-          changeNavView={changeNavView}
-        />
+        <NavContent>
+          <ChannelList
+            isPrivate={false}
+            currentChannel={currentChannel}
+            changeNavView={changeNavView}
+          />
+          <MembersOnlyChannels
+            currentChannel={currentChannel}
+            changeNavView={changeNavView}
+          />
+        </NavContent>
       </ListWrapper>
     </Wrapper>
   )

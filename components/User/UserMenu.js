@@ -10,12 +10,13 @@ import { COLORS } from '@constants'
 import {
   MenuButton,
   Text,
-  LineSpacer
+  LineSpacer,
+  LineSpacerWrapper
 } from '@components/Styled'
 
 export const UserMenuComponent = ({ handleSignOut }) => (
   <>
-    <Link href='/signup' passHref>
+    <Link href='/profile' passHref>
       <MenuButton>
         <UserIcon
           size={18}
@@ -24,9 +25,9 @@ export const UserMenuComponent = ({ handleSignOut }) => (
         <Text size='tiny' color='light'>My Profile</Text>
       </MenuButton>
     </Link>
-    <div style={{  display: 'flex', width: '100%', padding: '6px 0' }}>
+    <LineSpacerWrapper>
       <LineSpacer />
-    </div>
+    </LineSpacerWrapper>
     <MenuButton onClick={() => handleSignOut()}>
       <LogOutIcon
         size={18}

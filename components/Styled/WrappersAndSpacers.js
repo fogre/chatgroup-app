@@ -8,3 +8,9 @@ export const LineSpacer = styled.span`
   border-style: ${p => p.style ? p.style : 'solid'};
   width: ${p => p.width ? p.width+'px' : '100%'};
 `
+
+export const LineSpacerWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  padding: 6px 0;
+`

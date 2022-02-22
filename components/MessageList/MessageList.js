@@ -71,7 +71,7 @@ const MessageList = ({ currentChannel, channelMessages, isPrivateChannel }) => {
   return (
     <Wrapper>
       {pageMessages.map(messagesByDate =>
-        <div key={messagesByDate.dateStr}>
+        <article key={messagesByDate.dateStr}>
           <DateWrapper>
             <LineSpacer color={COLORS.white['51']} borderWidth={1}/>
             <Text
@@ -97,7 +97,7 @@ const MessageList = ({ currentChannel, channelMessages, isPrivateChannel }) => {
               </MessageContent>
             </MessageWrapper>
           )}
-        </div>
+        </article>
       )}
       <ScrollToBottom />
     </Wrapper>
@@ -113,7 +113,7 @@ const Wrapper = styled.div`
     --message-margin-bottom: 16px;
   }
 `
-const DateWrapper = styled.div`
+const DateWrapper = styled.span`
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
@@ -123,7 +123,7 @@ const DateWrapper = styled.div`
   margin-bottom: var(--message-margin-bottom);
 `
 
-const MessageWrapper = styled.div`
+const MessageWrapper = styled.article`
   display: grid;
   grid-template-areas: 'image content';
   grid-template-columns: 42px 1fr;

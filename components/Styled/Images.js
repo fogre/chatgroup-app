@@ -1,3 +1,4 @@
+import { AmplifyS3Image } from '@aws-amplify/ui-react/legacy'
 import styled from 'styled-components'
 
 import { User as UserIcon } from 'react-feather'
@@ -13,21 +14,30 @@ export const AvatarWrapper = styled.div`
   justify-content: center;
   width: 42px;
   height: 42px;
-  background-color: ${p => p.color
-    ? p.color
-    : COLORS.black.medium
+  background-color: ${p => p.color ? p.color : 'inherit'};
+  position: relative;
+
 }
 `
 
-const UserAvatarImage = styled.img`
-  width: 100%;
-  height: 100%;
+const UserAvatarImage = styled(AmplifyS3Image)`
+  --width: 100%;
+  --height: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: inherit;
+  overflow: hidden;
 `
 
 export const UserAvatar = ({ user }) => (
   <AvatarWrapper color={COLORS.primary}>
     {user.avatarUrl
-      ? <UserAvatarImage href={user.avatarUrl} />
+      ? <UserAvatarImage
+        level='protected'
+        imgKey={`${user.id}.png`}
+        identityId={user.avatarUrl}
+
+      />
       : <UserIcon
         size={24}
         color={COLORS.white['88']}

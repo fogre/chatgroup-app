@@ -38,3 +38,31 @@ export const inputCSS = css`
 export const DefaultInput = styled.input`
   ${inputCSS}
 `
+
+export const FileInput = ({ id, name, text, fileTypes, handleChange }) => (
+  <>
+    <InputFile
+      type='file'
+      name={name}
+      accept={fileTypes ? fileTypes : '*'}
+      id={id}
+      onChange={handleChange}
+    />
+    <LabelFile htmlFor={id}>
+      {text}
+    </LabelFile>
+  </>
+)
+
+const InputFile = styled.input`
+  display: none;
+`
+const LabelFile = styled.label`
+  cursor: pointer;
+  font-size: var(--font-normal);
+
+  &:focus, &:hover {
+    color: ${COLORS.primary};
+    text-decoration: underline;
+  }
+`

@@ -1,0 +1,16 @@
+{
+  "resourceName": "chatgroupAppS3Storage1",
+  "policyUUID": "b96f9d5e",
+  "bucketName": "chatgroupbc802c0d33bc4b7f8b73085b8dc4e398",
+  "storageAccess": "authAndGuest",
+  "guestAccess": [
+    "READ"
+  ],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "triggerFunction": "S3Trigger22f95379",
+  "groupAccess": {}
+}

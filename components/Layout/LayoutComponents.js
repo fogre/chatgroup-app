@@ -10,7 +10,7 @@ import { COLORS, QUERIES } from '@constants'
 import { Text, Heading, IconButton } from '@components/Styled'
 
 export const MainHeading = ({ pageName, toggleNav, setToggleNav }) => (
-  <MainHeadingWrapper>
+  <MainHeader>
     <MainHeadingContent>
       <ToggleNavWrapper
         view={toggleNav}
@@ -41,7 +41,7 @@ export const MainHeading = ({ pageName, toggleNav, setToggleNav }) => (
         {pageName}
       </Heading>
     </MainHeadingContent>
-  </MainHeadingWrapper>
+  </MainHeader>
 )
 
 export const GridLayoutWrapper = styled.div`
@@ -75,7 +75,7 @@ export const Main = styled.main`
   position: relative;
 `
 
-export const MainHeadingWrapper = styled.div`
+export const MainHeader = styled.header`
   box-shadow: var(--shadow-primary);
   position: sticky;
   top: 0;

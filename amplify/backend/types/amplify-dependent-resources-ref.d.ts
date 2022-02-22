@@ -23,6 +23,18 @@ export type AmplifyDependentResourcesAttributes = {
             "Arn": "string",
             "Region": "string",
             "LambdaExecutionRole": "string"
+        },
+        "S3Trigger22f95379": {
+            "Name": "string",
+            "Arn": "string",
+            "Region": "string",
+            "LambdaExecutionRole": "string"
+        }
+    },
+    "storage": {
+        "chatgroupAppS3Storage1": {
+            "BucketName": "string",
+            "Region": "string"
         }
     }
 }

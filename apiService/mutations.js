@@ -59,3 +59,17 @@ export const addUserAsChannelMemberMutation = async (variables, isPrivate = true
 
   return apiMutation(queryParams)
 }
+
+export const updateUserMutation = async user => {
+  const parsedUser = parseUserForMutation(user)
+
+  const queryParams = {
+    queryNameStr: 'updateMember',
+    variables: {
+      id: parsedUser.id,
+      input: parsedUser
+    }
+  }
+
+  return apiMutation(queryParams)
+}
