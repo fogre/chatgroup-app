@@ -7,7 +7,7 @@ export const inputWrapperCSS = css`
   width: 100%;
   display: flex;
   align-items: center;
-  border-radius: var(--border-radius-large);
+  border-radius: ${p => p.radius ? p.radius : 'var(--border-radius-large)'};
   background-color: ${COLORS.black.light};
   padding-left: 17px;
   padding-right: 6px;
@@ -21,6 +21,12 @@ export const DefaultInputWrapper = styled.div`
   ${inputWrapperCSS}
 `
 
+export const DefaultTextAreaWrapper = styled.div`
+  ${inputWrapperCSS}
+  display: block;
+  padding-top: 15px;
+`
+
 export const inputCSS = css`
   height: 100%;
   width: 100%;
@@ -31,12 +37,17 @@ export const inputCSS = css`
 
   &::placeholder {
     color: ${COLORS.white['51']};
-    font-size: var(--font-small);
+    font-size: ${p => p.placeholderNormal ? 'var(--font-normal)' : 'var(--font-small)'}
   }
 `
 
 export const DefaultInput = styled.input`
   ${inputCSS}
+`
+
+export const DefaultTextArea = styled.textarea`
+  ${inputCSS}
+  resize: none;
 `
 
 export const FileInput = ({ id, name, text, fileTypes, handleChange }) => (

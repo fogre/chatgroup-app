@@ -13,8 +13,6 @@ export const getMessage = /* GraphQL */ `
         username
         avatarColor
         avatarUrl
-        channelMembersId
-        publicChannelMembersId
         createdAt
         updatedAt
         owner
@@ -42,8 +40,6 @@ export const listMessages = /* GraphQL */ `
           username
           avatarColor
           avatarUrl
-          channelMembersId
-          publicChannelMembersId
           createdAt
           updatedAt
           owner
@@ -83,8 +79,6 @@ export const messagesByChannel = /* GraphQL */ `
           username
           avatarColor
           avatarUrl
-          channelMembersId
-          publicChannelMembersId
           createdAt
           updatedAt
           owner
@@ -182,8 +176,6 @@ export const getMember = /* GraphQL */ `
       username
       avatarColor
       avatarUrl
-      channelMembersId
-      publicChannelMembersId
       createdAt
       updatedAt
       owner
@@ -202,8 +194,6 @@ export const listMembers = /* GraphQL */ `
         username
         avatarColor
         avatarUrl
-        channelMembersId
-        publicChannelMembersId
         createdAt
         updatedAt
         owner
@@ -224,8 +214,6 @@ export const getPublicMessage = /* GraphQL */ `
         username
         avatarColor
         avatarUrl
-        channelMembersId
-        publicChannelMembersId
         createdAt
         updatedAt
         owner
@@ -254,8 +242,6 @@ export const listPublicMessages = /* GraphQL */ `
           username
           avatarColor
           avatarUrl
-          channelMembersId
-          publicChannelMembersId
           createdAt
           updatedAt
           owner
@@ -296,8 +282,6 @@ export const publicMessagesByChannel = /* GraphQL */ `
           username
           avatarColor
           avatarUrl
-          channelMembersId
-          publicChannelMembersId
           createdAt
           updatedAt
           owner

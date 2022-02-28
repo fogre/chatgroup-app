@@ -44,8 +44,6 @@ type Member
     username: String!
     avatarColor: String
     avatarUrl: String
-    channelMembersId: ID
-    publicChannelMembersId: ID
   }
 
 type PublicMessage
@@ -87,16 +85,16 @@ type Subscription {
     @aws_iam
     @aws_cognito_user_pools
 
-  onMembersByPublicChannel(publicChannelMembersId: ID!): Member
-    @aws_subscribe(mutations: ["updateMember"])
-    @aws_iam
-    @aws_cognito_user_pools
-
   onMessageByChannel(channelMessagesId: ID!): Message
     @aws_subscribe(mutations: ["createMessage"])
     @aws_cognito_user_pools
 
-  onMembersByChannel(channelMembersId: ID!): Member
-    @aws_subscribe(mutations: ["updateMember"])
+  onNewChannel: Channel
+    @aws_subscribe(mutations: ["createChannel"])
     @aws_cognito_user_pools
+
+  onNewPublicChannel: PublicChannel
+    @aws_subscribe(mutations: ["createPublicChannel"])
+    @aws_cognito_user_pools
+    @aws_iam
 }

@@ -84,11 +84,11 @@ export const messagesToArrayByDate = messages => {
 export const messagesToSingleArray = messageArrayByDate => {
   const newMessages = []
 
-  messageArrayByDate.forEach(mList => {
-    mList.messages.forEach(m => {
+  for (const mList of messageArrayByDate) {
+    for(const m of mList.messages) {
       newMessages.push(m)
-    })
-  })
+    }
+  }
   return newMessages
 }
 

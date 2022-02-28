@@ -1,4 +1,5 @@
 import { useState, useEffect, createContext } from 'react'
+import { useRouter } from 'next/router'
 import { Auth } from 'aws-amplify'
 import { useAuthenticator } from '@aws-amplify/ui-react'
 
@@ -7,28 +8,33 @@ import { getMemberQuery, updateUserMutation } from '@apiServices'
 export const UserContext = createContext(null)
 
 export const UserProvider = ({ children }) => {
-  const { route } = useAuthenticator(context => [context.route])
+  const useauth = useAuthenticator(context => [context.route])
   const [user, setUser] = useState(null)
   const [authMode, setAuthMode] = useState('AWS_IAM')
-  console.log(user);
+
   useEffect(() => {
+    console.log('IGET CALLED')
     setLoggedUser()
   }, [])
 
   useEffect(() => {
-    if (route === 'authenticated') {
+    if (useauth.route === 'authenticated') {
+      console.log('ROUTE IS AUTHENTICATED')
       setLoggedUser()
     }
 
-    if (route === 'signOut') {
+    if (useauth.route === 'signOut') {
       setAuthMode('AWS_IAM')
       setUser(null)
     }
-  }, [route])
+    console.log(useauth.route)
+  }, [useauth.route])
 
   const setLoggedUser = async () => {
     try {
       const loggedUser = await Auth.currentAuthenticatedUser()
+      setAuthCookies()
+      console.log('loggedUser', loggedUser)
       const { data } = await getMemberQuery(loggedUser.attributes.sub)
       setUser(data.getMember)
       setAuthMode('AMAZON_COGNITO_USER_POOLS')
@@ -37,21 +43,37 @@ export const UserProvider = ({ children }) => {
     }
   }
 
+  //set cookies for SSR
+  const setAuthCookies = () => {
+    const cookieList = ["LastAuthUser", "refreshToken", "accessToken", "idToken"]
+    let expiration = new Date()
+    expiration.setFullYear(expiration.getFullYear() + 1)
+    for (let key in window.localStorage) {
+      if (window.localStorage.hasOwnProperty(key)) {
+        let tokenNamearray = key.split('.')
+        let tokenName = tokenNamearray.pop()
+        if(cookieList.indexOf(tokenName) !== -1) {
+          document.cookie = `${key}=${window.localStorage[key]};expires=${expiration.toUTCString()};secure=true;samesite=strict`
+        }
+      }
+    }
+  } 
+
   const updateUserAvatar = async () => {
-    const { identityId } = await Auth.currentUserCredentials()
     try {
+      const { identityId } = await Auth.currentUserCredentials()
       const { data } = await updateUserMutation({
         ...user,
         avatarUrl: identityId
       })
-      setUser(data.updateMember)
+      setUser({ ...data.updateMember })
     } catch (e) {
       console.log(e)
     }
   }
 
   return (
-    <UserContext.Provider value={{ authMode, user, updateUserAvatar }}>
+    <UserContext.Provider value={{ authMode, user, setLoggedUser, updateUserAvatar }}>
       {children}
     </UserContext.Provider>  
   )

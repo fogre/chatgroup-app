@@ -36,6 +36,14 @@ const GlobalStyles = createGlobalStyle`
     height: 100%;
   }
 
+  * {
+    scrollbar-width: none;
+  }
+
+  *::-webkit-scrollbar { 
+    display: none;
+  }
+
 
   h2, h3 {
     font-size: var(--font-normal);

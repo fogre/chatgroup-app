@@ -20,6 +20,15 @@ const apiMutation = queryParams => {
   })
 }
 
+export const createChannelMutation = async newChannel => {
+  const queryParams = {
+    queryNameStr: 'createChannel',
+    variables: { input: newChannel }
+  }
+
+  return apiMutation(queryParams)
+}
+
 export const newMessageMutation = async (variables, isPrivate = true) => {
   const queryParams = isPrivate
     ? {
@@ -57,7 +66,7 @@ export const addUserAsChannelMemberMutation = async (variables, isPrivate = true
     }
   }
 
-  return apiMutation(queryParams)
+  return await apiMutation(queryParams)
 }
 
 export const updateUserMutation = async user => {

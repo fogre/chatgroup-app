@@ -51,12 +51,15 @@ export const GridLayoutWrapper = styled.div`
   --padding-nav: 32px;
   --padding-top: 18px;
   --content-height: calc(100vh - var(--header-height) * 2);
+  --fixed-z-index: 3;
+  --nav-z-index: 4;
   display: grid;
   grid-template-areas: 'nav main';
   grid-template-columns: var(--nav-width) 1fr;
   width: 100%;
   height: 100%;
   overflow: hidden;
+  isolation: isolate;
 
   @media ${QUERIES.tablet} {
     display: block;
@@ -81,6 +84,7 @@ export const MainHeader = styled.header`
   top: 0;
   left: 0;
   background-color: ${COLORS.black.medium};
+  z-index: var(--fixed-z-index);
 `
 
 export const MainHeadingContent = styled.div`
@@ -111,6 +115,7 @@ export const Nav = styled.nav`
   max-width: 100%;
   background: ${COLORS.black.dark};
   box-shadow: var(--shadow-primary);
+  z-index: var(--nav-z-index);
 
   @media ${QUERIES.tablet} {
     height: 100%;
@@ -124,6 +129,8 @@ export const Nav = styled.nav`
 
 export const NavContent = styled.div`
   padding: var(--padding-top) var(--padding-nav);
+  overflow-y: scroll;
+  overflow-x: hidden;
 `
 
 export const ToggleNavWrapper = styled.div`

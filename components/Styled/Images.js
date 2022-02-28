@@ -14,10 +14,8 @@ export const AvatarWrapper = styled.div`
   justify-content: center;
   width: 42px;
   height: 42px;
-  background-color: ${p => p.color ? p.color : 'inherit'};
+  background-color: ${p => p.color ? p.color : COLORS.black.light};
   position: relative;
-
-}
 `
 
 const UserAvatarImage = styled(AmplifyS3Image)`
@@ -30,13 +28,13 @@ const UserAvatarImage = styled(AmplifyS3Image)`
 `
 
 export const UserAvatar = ({ user }) => (
-  <AvatarWrapper color={COLORS.primary}>
+  <AvatarWrapper color={user.avatarColor ? user.avatarColor : COLORS.primary}>
     {user.avatarUrl
       ? <UserAvatarImage
+        key={user.updatedAt}
         level='protected'
         imgKey={`${user.id}.png`}
         identityId={user.avatarUrl}
-
       />
       : <UserIcon
         size={24}

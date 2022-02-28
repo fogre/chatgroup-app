@@ -15,25 +15,6 @@ const apiSubscription = (queryParams, callback) => {
   })
 }
 
-export const newMemberSubscription = (channelId, authMode, callback, isPrivate = true) => {
-
-  const queryParams = isPrivate
-    ? {
-      queryNameStr: 'onMembersByChannel',
-      variables: { channelMembersId: channelId }
-    }
-    : {
-      queryNameStr: 'onMembersByPublicChannel',
-      variables: { publicChannelMembersId: channelId }
-    }
-  queryParams.authMode = authMode
-  console.log(queryParams)
-  return apiSubscription(
-    queryParams,
-    callback
-  )
-}
-
 export const newMessageSubscription = (channelId, authMode, callback, isPrivate = true) => {
   const queryParams = isPrivate
     ? {
@@ -52,3 +33,18 @@ export const newMessageSubscription = (channelId, authMode, callback, isPrivate 
   )
 }
 
+export const newChannelSubscription = (authMode, callback, isPrivate = true) => {
+  const queryParams = isPrivate
+    ? {
+      queryNameStr: 'onNewChannel'
+    }
+    : {
+      queryNameStr: 'onNewPublicChannel'
+    }
+  queryParams.authMode = authMode
+
+  return apiSubscription(
+    queryParams,
+    callback
+  )
+}

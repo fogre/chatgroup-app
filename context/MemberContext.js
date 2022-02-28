@@ -1,6 +1,5 @@
 import { useState, useEffect, createContext, useContext } from 'react'
 
-import { newMemberSubscription, addUserAsChannelMemberMutation } from '@apiServices'
 import { UserContext } from '@context'
 
 export const MemberContext = createContext(null)
@@ -9,18 +8,12 @@ export const MemberProvider = ({ currentChannel, channelMessages, isPrivateChann
   const { user, authMode } = useContext(UserContext)
   const [activeMembers, setActiveMembers] = useState({})
   const [inactiveMembers, setInactiveMembers] = useState({})
+  //used in MessageList to check if a member is updated
+  const allMembers = { ...activeMembers, ...inactiveMembers }
 
   useEffect(() => {
-    const memberSubscription = newMemberSubscription(
-      currentChannel.id,
-      authMode,
-      addToActiveMembers,
-      isPrivateChannel
-    )
     updateMembers(channelMessages)
-
-    return () => memberSubscription.unsubscribe()
-  }, [currentChannel.id, channelMessages, isPrivateChannel])
+  }, [channelMessages])
 
   const addToActiveMembers = user => {
     if (!activeMembers[user.id]) {
@@ -31,6 +24,7 @@ export const MemberProvider = ({ currentChannel, channelMessages, isPrivateChann
       })
 
       if (inactiveMembers[user.id]) {
+        console.log('checking inactivee')
         setInactiveMembers(inactiveMembers => {
           const iMembers = { ...inactiveMembers }
           delete iMembers[user.id]
@@ -76,6 +70,7 @@ export const MemberProvider = ({ currentChannel, channelMessages, isPrivateChann
 
   return (
     <MemberContext.Provider value={{
+      allMembers,
       activeMembers,
       inactiveMembers,
       updateMembers,

@@ -6,7 +6,7 @@ const TEXT_COLOR = {
   dark: COLORS.white['51'],
   medium: COLORS.white['74'],
   light: COLORS.white['88'],
-  danger: COLORS.danger
+  danger: COLORS.danger,
 }
 
 export const Heading = styled.h2`

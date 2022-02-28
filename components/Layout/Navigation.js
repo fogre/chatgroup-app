@@ -9,6 +9,7 @@ import { ChevronLeft as ChevronLeftIcon } from 'react-feather'
 import { UserContext } from '@context'
 import { COLORS, QUERIES } from '@constants'
 
+import AddChannel from '@components/AddChannel'
 import ChannelLists from '@components/ChannelList'
 import ChannelInfo from '@components/ChannelInfo'
 import UserComponent, { UserMenuComponent } from '@components/User'
@@ -20,8 +21,8 @@ const UserMenu = ({ toggle, setToggle }) => {
 
   const handleSignOut = async () => {
     try {
-      await Auth.signOut()
       await router.push('/signup')
+      await Auth.signOut()
     } catch (e) {
       console.log(e)
     }
@@ -112,6 +113,7 @@ const UserWrapper = styled.div`
 
 const Navigation = ({ currentChannel, toggleNav, setToggleNav }) => {
   const [navView, setNavView] = useState(true)
+  const [openAddModal, setOpenAddModal] = useState(false)
 
   const changeNavView = (newView, closeNav = false) => {
     if (closeNav) {
@@ -120,20 +122,32 @@ const Navigation = ({ currentChannel, toggleNav, setToggleNav }) => {
     setNavView(newView)
   }
 
+  const openAddChannelModalView = () => {
+    setOpenAddModal(true)
+    setToggleNav(false)
+  }
+
   return (
-    <Nav view={toggleNav}>
-      <ChannelLists
-        currentChannel={currentChannel}
-        changeNavView={changeNavView}
-      />
-      {currentChannel && <SlideInWrapper view={navView}>
-        <ChannelInfo
-          changeNavView={changeNavView}
+    <>
+      <Nav view={toggleNav}>
+        <ChannelLists
           currentChannel={currentChannel}
+          changeNavView={changeNavView}
+          openAddModalView={openAddChannelModalView}
         />
-      </SlideInWrapper>}
-      <UserInNav />
-    </Nav>
+        {currentChannel && <SlideInWrapper view={navView}>
+          <ChannelInfo
+            changeNavView={changeNavView}
+            currentChannel={currentChannel}
+          />
+        </SlideInWrapper>}
+        <UserInNav />
+      </Nav>
+      <AddChannel
+        openModal={openAddModal}
+        setOpenModal={setOpenAddModal}
+      />
+    </>
   )
 }
 

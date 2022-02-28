@@ -19,23 +19,21 @@ const ProfilePage = () => {
   const router = useRouter()
   const { user, updateUserAvatar } = useContext(UserContext)
 
-
   useEffect(() => {
     if (!user) {
       router.push('/signup').catch(e => console.log(e))
     }
   }, [user, router])
 
-  const handleAvatarUpload = async (e) => {
+  const handleAvatarUpload = async e => {
     e.preventDefault()
-    console.log(e)
     try {
       const res = await Storage.put(`${user.id}.png`, e.target.files[0], {
         level: 'protected',
         contentType: 'image/png'
       })
-
-      updateUserAvatar()
+      await Storage.get(`${user.id}.png`, { level: 'protected' })
+      await updateUserAvatar()
     } catch(e) {
       console.log(e)
     }

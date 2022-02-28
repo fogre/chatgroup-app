@@ -17,7 +17,7 @@ import ScrollToBottom from './ScrollToBottom'
 
 const MessageList = ({ currentChannel, channelMessages, isPrivateChannel }) => {
   const { authMode } = useContext(UserContext)
-  const { addToActiveMembers, updateMembers } = useContext(MemberContext)
+  const { allMembers, addToActiveMembers, updateMembers } = useContext(MemberContext)
   const [pageMessages, setPageMessages] = useState([])
 
   //update active members every 10 minutes
@@ -27,28 +27,39 @@ const MessageList = ({ currentChannel, channelMessages, isPrivateChannel }) => {
     updateMembers(parsedMessages)
   }, 600000)
 
-  //parse channel messages dates
   useEffect(() => {
     if (channelMessages) {
+      //sort messages by date
       setPageMessages(messagesToArrayByDate(channelMessages.reverse()))
     }
   }, [channelMessages])
 
-  /*Subscription for new messages.
-    First checks if the day has changed. If so parses the list with the new date.
-    If not, just parses the message date to local time.
-    Then adds message user to active members*/
+  /*
+    Subscription for new messages.
+    First checks if the user is updated and replaces the updated user to allMembers
+    Then checks if the day has changed, if so parses the list with new dates
+    If not, parses the message parsedDate for UI
+    Then adds the user to active members
+  */
   useEffect(() => {
-    const subscriptionCallback = message => {
-      const hasDayChanged = checkIfDayChaged(
-        pageMessages[pageMessages.length-1].messages,
+    const addToMessagesAndActiveMembers = message => {
+      if (allMembers[message.user.id]) {
+        const memberIsUpdated = allMembers[message.user.id].updatedAt.localeCompare(
+          message.user.updatedAt
+        )
+        if (memberIsUpdated !== 0) {
+          allMembers[message.user.id] = message.user
+        }
+      }
+
+      const hasDayChanged = pageMessages.length && checkIfDayChaged(
+        pageMessages[pageMessages.length-1].dateStr,
         message.createdAt
       )
-
-      if (hasDayChanged) {
-        const newMessages = messagesToSingleArray(pageMessages)
-        newMessages.push(message)
-        setPageMessages(messagesToArrayByDate(newMessages))
+      if (!pageMessages.length || hasDayChanged) {
+        const messagesInSingleArray = messagesToSingleArray([ ...pageMessages ])
+        messagesInSingleArray.push(message)
+        setPageMessages(messagesToArrayByDate(messagesInSingleArray))
       } else {
         message.parsedDate = toMessageDateString(message.createdAt)
         const newPageMessages = [...pageMessages]
@@ -61,12 +72,13 @@ const MessageList = ({ currentChannel, channelMessages, isPrivateChannel }) => {
     const messageSubscription = newMessageSubscription(
       currentChannel.id,
       authMode,
-      subscriptionCallback,
+      addToMessagesAndActiveMembers,
       isPrivateChannel
     )
 
     return () => messageSubscription.unsubscribe()
-  }, [pageMessages, addToActiveMembers, currentChannel.id, isPrivateChannel, authMode])
+  }, [pageMessages, allMembers, addToActiveMembers, currentChannel.id, isPrivateChannel, authMode])
+
 
   return (
     <Wrapper>
@@ -85,7 +97,7 @@ const MessageList = ({ currentChannel, channelMessages, isPrivateChannel }) => {
           {messagesByDate.messages.map(message =>
             <MessageWrapper key={message.id}>
               <UserAvatar
-                user={message.user}
+                user={allMembers[message.user.id]}
                 style={{ gridArea: 'image' }}
               />
               <MessageContent>

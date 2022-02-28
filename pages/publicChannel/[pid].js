@@ -1,4 +1,5 @@
-import { API, Auth, withSSRContext } from 'aws-amplify'
+import Amplify, { Auth, withSSRContext } from 'aws-amplify'
+import awsconfig from '../../aws-exports'
 
 import { queries } from '@graphql'
 
@@ -19,6 +20,7 @@ const PubliChannel = ({ currentChannel, channelMessages, isPrivateChannel })  =>
 export async function getServerSideProps({ req, params }) {
   const isPrivateChannel = false
   const SSR = withSSRContext({ req })
+  SSR.Auth.configure({ ...awsconfig })
   const channelId = params.pid
   let authMode
 
@@ -30,6 +32,7 @@ export async function getServerSideProps({ req, params }) {
     await SSR.Auth.currentAuthenticatedUser()
     authMode = 'AMAZON_COGNITO_USER_POOLS'
   } catch(e){
+    console.log(e)
     authMode = 'AWS_IAM'
   }
   /*Query data*/

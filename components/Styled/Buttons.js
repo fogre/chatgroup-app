@@ -46,3 +46,14 @@ export const MenuButton = styled(UnstyledButton)`
     background-color: ${COLORS.black.light};
   }
 `
+
+export const PaddedTextButton = styled(UnstyledButton)`
+  padding: 7px 30px;
+  border-radius: var(--border-radius-main);
+  background-color: ${p => p.backgroundColor ? p.backgroundColor : 'transparent'};
+  outline: 1px solid transparent;
+
+  &:hover {
+    outline: 1px solid ${COLORS.white['88']}
+  }
+`

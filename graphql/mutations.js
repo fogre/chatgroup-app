@@ -16,8 +16,6 @@ export const createMessage = /* GraphQL */ `
         username
         avatarColor
         avatarUrl
-        channelMembersId
-        publicChannelMembersId
         createdAt
         updatedAt
         owner
@@ -43,8 +41,6 @@ export const updateMessage = /* GraphQL */ `
         username
         avatarColor
         avatarUrl
-        channelMembersId
-        publicChannelMembersId
         createdAt
         updatedAt
         owner
@@ -70,8 +66,6 @@ export const deleteMessage = /* GraphQL */ `
         username
         avatarColor
         avatarUrl
-        channelMembersId
-        publicChannelMembersId
         createdAt
         updatedAt
         owner
@@ -173,8 +167,6 @@ export const createMember = /* GraphQL */ `
       username
       avatarColor
       avatarUrl
-      channelMembersId
-      publicChannelMembersId
       createdAt
       updatedAt
       owner
@@ -191,8 +183,6 @@ export const updateMember = /* GraphQL */ `
       username
       avatarColor
       avatarUrl
-      channelMembersId
-      publicChannelMembersId
       createdAt
       updatedAt
       owner
@@ -209,8 +199,6 @@ export const deleteMember = /* GraphQL */ `
       username
       avatarColor
       avatarUrl
-      channelMembersId
-      publicChannelMembersId
       createdAt
       updatedAt
       owner
@@ -232,8 +220,6 @@ export const createPublicMessage = /* GraphQL */ `
         username
         avatarColor
         avatarUrl
-        channelMembersId
-        publicChannelMembersId
         createdAt
         updatedAt
         owner
@@ -260,8 +246,6 @@ export const updatePublicMessage = /* GraphQL */ `
         username
         avatarColor
         avatarUrl
-        channelMembersId
-        publicChannelMembersId
         createdAt
         updatedAt
         owner
@@ -288,8 +272,6 @@ export const deletePublicMessage = /* GraphQL */ `
         username
         avatarColor
         avatarUrl
-        channelMembersId
-        publicChannelMembersId
         createdAt
         updatedAt
         owner

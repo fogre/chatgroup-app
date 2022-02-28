@@ -1,4 +1,5 @@
-import { API, Auth, withSSRContext } from 'aws-amplify'
+import { withSSRContext } from 'aws-amplify'
+import awsconfig from '../../aws-exports'
 
 import { queries } from '@graphql'
 
@@ -16,17 +17,18 @@ const PubliChannel = ({ currentChannel, channelMessages, isPrivateChannel })  =>
   )
 }
 
-export async function getServerSideProps({ req, params }) {
+export const getServerSideProps = async ({ req, params }) => {
   const isPrivateChannel = true
-  const SSR = withSSRContext({ req })
+  const { Auth, API } = withSSRContext({ req })
+
   const channelId = params.pid
   let authMode = 'AMAZON_COGNITO_USER_POOLS'
-  /*
-    currentAuthenticatedUser will throw error if not authenticated
-  */
+
+  //currentAuthenticatedUser will throw error if not authenticated
   try {
-    await SSR.Auth.currentAuthenticatedUser()
+    await Auth.currentAuthenticatedUser()
   } catch (e) {
+    console.log(e)
     return {
       redirect: {
         permanent: false,
@@ -36,13 +38,13 @@ export async function getServerSideProps({ req, params }) {
   }
   //fetch data
   try {
-    const channelRes = await SSR.API.graphql({
+    const channelRes = await API.graphql({
       query: queries.getChannel,
       variables: { id: channelId },
       authMode
     })
 
-    const messagesRes = await SSR.API.graphql({
+    const messagesRes = await API.graphql({
       query: queries.messagesByChannel,
       variables: {
         channelMessagesId: channelId,

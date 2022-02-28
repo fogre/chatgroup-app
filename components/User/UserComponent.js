@@ -14,7 +14,7 @@ const Wrapper = styled.div`
   align-items: center;
   gap: 24px;
   margin: 24px 0;
-  opacity: ${p => p.active ? '1' : '0.55'}
+  opacity: ${p => p.active ? '1' : '0.6'}
 `
 
 export default UserComponent

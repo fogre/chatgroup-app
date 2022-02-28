@@ -15,8 +15,6 @@ export const onPublicMessageByPublicChannel = /* GraphQL */ `
         username
         avatarColor
         avatarUrl
-        channelMembersId
-        publicChannelMembersId
         createdAt
         updatedAt
         owner
@@ -24,21 +22,6 @@ export const onPublicMessageByPublicChannel = /* GraphQL */ `
       expirationTime
       updatedAt
       publicMessageUserId
-      owner
-    }
-  }
-`;
-export const onMembersByPublicChannel = /* GraphQL */ `
-  subscription OnMembersByPublicChannel($publicChannelMembersId: ID!) {
-    onMembersByPublicChannel(publicChannelMembersId: $publicChannelMembersId) {
-      id
-      username
-      avatarColor
-      avatarUrl
-      channelMembersId
-      publicChannelMembersId
-      createdAt
-      updatedAt
       owner
     }
   }
@@ -55,8 +38,6 @@ export const onMessageByChannel = /* GraphQL */ `
         username
         avatarColor
         avatarUrl
-        channelMembersId
-        publicChannelMembersId
         createdAt
         updatedAt
         owner
@@ -67,15 +48,49 @@ export const onMessageByChannel = /* GraphQL */ `
     }
   }
 `;
-export const onMembersByChannel = /* GraphQL */ `
-  subscription OnMembersByChannel($channelMembersId: ID!) {
-    onMembersByChannel(channelMembersId: $channelMembersId) {
+export const onNewChannel = /* GraphQL */ `
+  subscription OnNewChannel {
+    onNewChannel {
       id
-      username
-      avatarColor
-      avatarUrl
-      channelMembersId
-      publicChannelMembersId
+      name
+      description
+      messages {
+        items {
+          id
+          content
+          createdAt
+          channelMessagesId
+          updatedAt
+          messageUserId
+          owner
+        }
+        nextToken
+      }
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onNewPublicChannel = /* GraphQL */ `
+  subscription OnNewPublicChannel {
+    onNewPublicChannel {
+      id
+      name
+      description
+      messages {
+        items {
+          id
+          createdAt
+          content
+          publicChannelMessagesId
+          expirationTime
+          updatedAt
+          publicMessageUserId
+          owner
+        }
+        nextToken
+      }
       createdAt
       updatedAt
       owner
@@ -94,8 +109,6 @@ export const onCreateMessage = /* GraphQL */ `
         username
         avatarColor
         avatarUrl
-        channelMembersId
-        publicChannelMembersId
         createdAt
         updatedAt
         owner
@@ -118,8 +131,6 @@ export const onUpdateMessage = /* GraphQL */ `
         username
         avatarColor
         avatarUrl
-        channelMembersId
-        publicChannelMembersId
         createdAt
         updatedAt
         owner
@@ -142,8 +153,6 @@ export const onDeleteMessage = /* GraphQL */ `
         username
         avatarColor
         avatarUrl
-        channelMembersId
-        publicChannelMembersId
         createdAt
         updatedAt
         owner
@@ -233,8 +242,6 @@ export const onCreateMember = /* GraphQL */ `
       username
       avatarColor
       avatarUrl
-      channelMembersId
-      publicChannelMembersId
       createdAt
       updatedAt
       owner
@@ -248,8 +255,6 @@ export const onUpdateMember = /* GraphQL */ `
       username
       avatarColor
       avatarUrl
-      channelMembersId
-      publicChannelMembersId
       createdAt
       updatedAt
       owner
@@ -263,8 +268,6 @@ export const onDeleteMember = /* GraphQL */ `
       username
       avatarColor
       avatarUrl
-      channelMembersId
-      publicChannelMembersId
       createdAt
       updatedAt
       owner
@@ -283,8 +286,6 @@ export const onCreatePublicMessage = /* GraphQL */ `
         username
         avatarColor
         avatarUrl
-        channelMembersId
-        publicChannelMembersId
         createdAt
         updatedAt
         owner
@@ -308,8 +309,6 @@ export const onUpdatePublicMessage = /* GraphQL */ `
         username
         avatarColor
         avatarUrl
-        channelMembersId
-        publicChannelMembersId
         createdAt
         updatedAt
         owner
@@ -333,8 +332,6 @@ export const onDeletePublicMessage = /* GraphQL */ `
         username
         avatarColor
         avatarUrl
-        channelMembersId
-        publicChannelMembersId
         createdAt
         updatedAt
         owner
