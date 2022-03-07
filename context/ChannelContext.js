@@ -6,10 +6,15 @@ import { listChannelsQuery, newChannelSubscription } from '@apiServices'
 export const ChannelContext = createContext(null)
 
 export const ChannelProvider = ({ children }) => {
-  const { authMode, user } = useContext(UserContext)
+  const { authMode } = useContext(UserContext)
   const [publicChannels, setPublicChannels] = useState([])
   const [privateChannels, setPrivateChannels] = useState([])
 
+  /*
+    Channel queries and subscriptions
+    Queries publicChannels on default
+    Queries private channels only if user is logged in
+  */  
   useEffect(() => {
     //callbacks
     const publicChannelCallback = channel => {
@@ -35,7 +40,7 @@ export const ChannelProvider = ({ children }) => {
 
     //query and subscribe to members only channels
     let privateChannelSub
-    if (user) {
+    if (authMode === 'AMAZON_COGNITO_USER_POOLS') {
       getChannels(setPrivateChannels, true)
 
       privateChannelSub = newChannelSubscription(
@@ -53,9 +58,7 @@ export const ChannelProvider = ({ children }) => {
     }
   }, [authMode])
 
-
-
-  
+  //get and set channels
   const getChannels = async (setChannels, isPrivate) => {
     try {
       const channelsInDB = await listChannelsQuery(authMode, isPrivate)

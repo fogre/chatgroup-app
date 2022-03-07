@@ -7,11 +7,17 @@ import { Plus as PlusIcon } from 'react-feather'
 import { COLORS } from '@constants'
 import { ChannelContext, UserContext } from '@context'
 
+import { SignInOrUp } from '@components/User'
 import { NavContent } from '@components/Layout'
-import { Heading, AvatarWrapper, IconButton, UnstyledButton } from '@components/Styled'
+import {
+  Heading,
+  AvatarWrapper,
+  IconButton,
+  UnstyledButton,
+  ScrollWrapper
+} from '@components/Styled'
 
-const ChannelLink = ({ channelBaseUrl, currentChannel, channel, changeNavView }) => {
-  const isCurrent = currentChannel ? channel.id === currentChannel.id : false
+const ChannelLink = ({ channelBaseUrl, isCurrent, channel, changeNavView }) => {
   const channelNameWithSpace = channel.name.match(/\b(\w)/g)[1]
   let avatarName =  channel.name[0]
 
@@ -33,14 +39,16 @@ const ChannelLink = ({ channelBaseUrl, currentChannel, channel, changeNavView })
   )
 
   return (
-    <WrapperComponent>
-      <ChannelWrapper isCurrent={isCurrent}>
-        <AvatarWrapper color={isCurrent ? COLORS.black.light : COLORS.black.medium}>
-          {avatarName}
-        </AvatarWrapper>
-        <StyledChannelLink>{channel.name}</StyledChannelLink>
-      </ChannelWrapper>
-    </WrapperComponent>
+    <li>
+      <WrapperComponent>
+        <ChannelWrapper isCurrent={isCurrent}>
+          <AvatarWrapper color={isCurrent ? COLORS.black.light : COLORS.black.medium}>
+            {avatarName}
+          </AvatarWrapper>
+          <StyledChannelLink>{channel.name}</StyledChannelLink>
+        </ChannelWrapper>
+      </WrapperComponent>
+    </li>
   )
 }
 
@@ -51,6 +59,10 @@ const ChannelWrapper = styled.div`
   color: ${p => p.isCurrent ? COLORS.white['88'] : COLORS.white['74']};
   margin: 21px 0;
   width: max-content;
+
+  ${UnstyledButton} > & {
+    margin: 21px 0 10px;
+  }
 
   &:hover {
     color: ${COLORS.white['88']};
@@ -66,6 +78,7 @@ const StyledChannelLink = styled.a`
 
 const ChannelList = ({ channels, currentChannel, isPrivate, changeNavView }) => {
   const channelBaseUrl = isPrivate ? '/channel/' : '/publicChannel/'
+  const isCurrentChannel = currentChannel && channels.find(c => c.id === currentChannel.id)
 
   return (
     <>
@@ -73,15 +86,24 @@ const ChannelList = ({ channels, currentChannel, isPrivate, changeNavView }) => 
         ? <Heading>Member channels</Heading>
         : <Heading>Public channels</Heading>}
       <UnorderedList>
+        {isCurrentChannel && <ChannelLink
+          channel={currentChannel}
+          channelBaseUrl={channelBaseUrl}
+          isCurrent={true}
+          changeNavView={changeNavView}
+        />}
         {channels.map(channel =>
-          <li key={channel.id}>
-            <ChannelLink
-              channel={channel}
-              channelBaseUrl={channelBaseUrl}
-              currentChannel={currentChannel}
-              changeNavView={changeNavView}
-            />
-          </li>
+          <div key={channel.id}>
+            {!isCurrentChannel || channel.id !== currentChannel.id
+              ? <ChannelLink
+                channel={channel}
+                channelBaseUrl={channelBaseUrl}
+                isCurrent={false}
+                changeNavView={changeNavView}
+              />
+              : null
+            }
+          </div>
         )}
       </UnorderedList>
     </>
@@ -99,7 +121,11 @@ const MembersChannelList = ({ currentChannel, changeNavView, authMode }) => {
 
   if (authMode === 'AWS_IAM') {
     return (
-      <p>Only logged members can see these channels</p>
+      <div style={{ paddingTop: '40px' }}>
+        <SignInOrUp
+          text='to view members only channels'
+        />
+      </div>
     )
   }
 
@@ -115,7 +141,7 @@ const MembersChannelList = ({ currentChannel, changeNavView, authMode }) => {
 
 const PublicChannelList = ({ currentChannel, changeNavView }) => {
   const { publicChannels } = useContext(ChannelContext)
-  console.log(publicChannels)
+
   return (
     <ChannelList
       channels={publicChannels}
@@ -146,7 +172,7 @@ const ChannelLists = ({ currentChannel, changeNavView, openAddModalView }) => {
             />
           </IconButton>}
         </HeaderWrapper>
-        <ListWrapper>
+        <ScrollWrapper>
           <NavContent>
             <PublicChannelList
               currentChannel={currentChannel}
@@ -158,7 +184,7 @@ const ChannelLists = ({ currentChannel, changeNavView, openAddModalView }) => {
               authMode={authMode}
             />
           </NavContent>
-        </ListWrapper>
+        </ScrollWrapper>
       </Wrapper>
     </>
   )
@@ -175,13 +201,6 @@ const HeaderWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-`
-
-const ListWrapper = styled.div`
-  height: 100%;
-  min-height: var(--content-height);
-  max-height: var(--content-height);
-  overflow-y: auto;
 `
 
 export default ChannelLists

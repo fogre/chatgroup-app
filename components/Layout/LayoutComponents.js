@@ -11,7 +11,7 @@ import { Text, Heading, IconButton } from '@components/Styled'
 
 export const MainHeading = ({ pageName, toggleNav, setToggleNav }) => (
   <MainHeader>
-    <MainHeadingContent>
+    <MainHeaderContent>
       <ToggleNavWrapper
         view={toggleNav}
         onClick={() => setToggleNav(!toggleNav)}
@@ -40,7 +40,7 @@ export const MainHeading = ({ pageName, toggleNav, setToggleNav }) => (
       >
         {pageName}
       </Heading>
-    </MainHeadingContent>
+    </MainHeaderContent>
   </MainHeader>
 )
 
@@ -87,11 +87,12 @@ export const MainHeader = styled.header`
   z-index: var(--fixed-z-index);
 `
 
-export const MainHeadingContent = styled.div`
+export const MainHeaderContent = styled.div`
   padding: 0 var(--padding-main);
   height: var(--header-height);
   display: flex;
   align-items: center;
+  white-space: nowrap;
 
   @media ${QUERIES.tablet} {
     padding: 0 80px;

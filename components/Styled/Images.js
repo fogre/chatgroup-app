@@ -1,9 +1,10 @@
-import { AmplifyS3Image } from '@aws-amplify/ui-react/legacy'
+import { useState, useEffect } from 'react'
 import styled from 'styled-components'
 
 import { User as UserIcon } from 'react-feather'
 
 import { COLORS } from '@constants'
+import { getCachedAvatarUrl } from '@utils/avatarCache'
 
 export const AvatarWrapper = styled.div`
   text-transform: uppercase;
@@ -18,28 +19,40 @@ export const AvatarWrapper = styled.div`
   position: relative;
 `
 
-const UserAvatarImage = styled(AmplifyS3Image)`
-  --width: 100%;
-  --height: 100%;
+const UserAvatarImage = styled.img`
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   object-position: center;
   border-radius: inherit;
   overflow: hidden;
 `
 
-export const UserAvatar = ({ user }) => (
-  <AvatarWrapper color={user.avatarColor ? user.avatarColor : COLORS.primary}>
-    {user.avatarUrl
-      ? <UserAvatarImage
-        key={user.updatedAt}
-        level='protected'
-        imgKey={`${user.id}.png`}
-        identityId={user.avatarUrl}
-      />
-      : <UserIcon
-        size={24}
-        color={COLORS.white['88']}
-      />
+export const UserAvatar = ({ user }) => {
+  const [imageUrl, setImageUrl] = useState(null)
+
+  useEffect(() => {
+    const getImageUrl = async () => {
+      const url = await getCachedAvatarUrl(user)
+      if (url) {
+        setImageUrl(url)
+      }
     }
-  </AvatarWrapper>
-)
+    getImageUrl()
+  }, [user])
+
+  return (
+    <AvatarWrapper color={user.avatarColor ? user.avatarColor : COLORS.primary}>
+      {imageUrl
+        ? <UserAvatarImage
+          src={imageUrl}
+          alt='user avatar image'
+        />
+        : <UserIcon
+          size={24}
+          color={COLORS.white['88']}
+        />
+      }
+    </AvatarWrapper>
+  )
+}

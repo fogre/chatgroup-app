@@ -5,6 +5,8 @@ import { COLORS, QUERIES } from '@constants'
 import { UserContext, MemberContext } from '@context'
 import { newMessageSubscription } from '@apiServices'
 import { useInterval, AlwaysScrollToBottom } from '@utils/customHooks'
+import { getUserAvatarUrl } from '@utils/avatarCache'
+
 import {
   checkIfDayChaged,
   messagesToSingleArray,
@@ -37,17 +39,19 @@ const MessageList = ({ currentChannel, channelMessages, isPrivateChannel }) => {
   /*
     Subscription for new messages.
     First checks if the user is updated and replaces the updated user to allMembers
-    Then checks if the day has changed, if so parses the list with new dates
+    Then checks if this is the first message in the list
+    or the day has changed, if so parses the list with new dates
     If not, parses the message parsedDate for UI
     Then adds the user to active members
   */
   useEffect(() => {
-    const addToMessagesAndActiveMembers = message => {
+    const addToMessagesAndActiveMembers = async message => {
       if (allMembers[message.user.id]) {
         const memberIsUpdated = allMembers[message.user.id].updatedAt.localeCompare(
           message.user.updatedAt
         )
         if (memberIsUpdated !== 0) {
+          await getUserAvatarUrl(message.user)
           allMembers[message.user.id] = message.user
         }
       }
@@ -97,6 +101,7 @@ const MessageList = ({ currentChannel, channelMessages, isPrivateChannel }) => {
           {messagesByDate.messages.map(message =>
             <MessageWrapper key={message.id}>
               <UserAvatar
+                key={message.user.updatedAt}
                 user={allMembers[message.user.id]}
                 style={{ gridArea: 'image' }}
               />
@@ -120,6 +125,9 @@ const Wrapper = styled.div`
   --message-margin-bottom: 36px;
   overflow-y: auto;
   overflow-x: hidden;
+  padding-top: var(--header-height);
+  opacity: 1;
+  transition: opacity 0.4s;
 
   @media ${QUERIES.tablet} {
     --message-margin-bottom: 16px;

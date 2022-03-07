@@ -9,10 +9,10 @@ import { ChevronLeft as ChevronLeftIcon } from 'react-feather'
 import { UserContext } from '@context'
 import { COLORS, QUERIES } from '@constants'
 
-import AddChannel from '@components/AddChannel'
 import ChannelLists from '@components/ChannelList'
 import ChannelInfo from '@components/ChannelInfo'
 import UserComponent, { UserMenuComponent } from '@components/User'
+import  { AddChannelModal } from '@components/Modals'
 import { UnstyledButton } from '@components/Styled'
 import { Nav } from './LayoutComponents'
 
@@ -143,7 +143,7 @@ const Navigation = ({ currentChannel, toggleNav, setToggleNav }) => {
         </SlideInWrapper>}
         <UserInNav />
       </Nav>
-      <AddChannel
+      <AddChannelModal
         openModal={openAddModal}
         setOpenModal={setOpenAddModal}
       />

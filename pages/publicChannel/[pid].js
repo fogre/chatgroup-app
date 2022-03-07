@@ -1,13 +1,11 @@
-import Amplify, { Auth, withSSRContext } from 'aws-amplify'
+import Amplify, { withSSRContext } from 'aws-amplify'
 import awsconfig from '../../aws-exports'
 
-import { queries } from '@graphql'
+import { ssrChannelPropsQuery } from '@apiServices'
 
 import { ChannelPageLayout } from '@components/Layout'
 
 const PubliChannel = ({ currentChannel, channelMessages, isPrivateChannel })  => {
-  console.log(currentChannel, channelMessages)
-
   return (
     <ChannelPageLayout
       currentChannel={currentChannel}
@@ -17,10 +15,10 @@ const PubliChannel = ({ currentChannel, channelMessages, isPrivateChannel })  =>
   )
 }
 
-export async function getServerSideProps({ req, params }) {
+export const getServerSideProps = async ({ req, params }) => {
   const isPrivateChannel = false
-  const SSR = withSSRContext({ req })
-  SSR.Auth.configure({ ...awsconfig })
+  const { API, Auth } = withSSRContext({ req })
+  Auth.configure({ ...awsconfig })
   const channelId = params.pid
   let authMode
 
@@ -29,48 +27,18 @@ export async function getServerSideProps({ req, params }) {
     This is required, as IAM will throw unauthorized error for signed users!
   */
   try {
-    await SSR.Auth.currentAuthenticatedUser()
+    await Auth.currentAuthenticatedUser()
     authMode = 'AMAZON_COGNITO_USER_POOLS'
   } catch(e){
-    console.log(e)
     authMode = 'AWS_IAM'
   }
   /*Query data*/
   try {
-    const channelRes = await SSR.API.graphql({
-      query: queries.getPublicChannel,
-      variables: { id: channelId },
-      authMode
-    })
-
-    const messagesRes = await SSR.API.graphql({
-      query: queries.publicMessagesByChannel,
-      variables: {
-        publicChannelMessagesId: channelId,
-        limit: 50,
-        sortDirection: 'DESC'
-      },
-      authMode
-    })
-
-    if (!channelRes.data.getPublicChannel) {
-      return {
-        redirect: {
-          permanent: false,
-          destination: '/404',
-        }
-      }
-    }
-
-    return {
-      props: {
-        isPrivateChannel,
-        currentChannel: channelRes.data.getPublicChannel,
-        channelMessages: messagesRes.data.publicMessagesByChannel.items
-      },
-    }
-  } catch (error) {
-    console.log(error)
+    return await ssrChannelPropsQuery(
+      API, authMode, isPrivateChannel, channelId
+    )
+  } catch (e) {
+    console.log(e)
     return {
       redirect: {
         permanent: false,

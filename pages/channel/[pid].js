@@ -1,13 +1,11 @@
 import { withSSRContext } from 'aws-amplify'
 import awsconfig from '../../aws-exports'
 
-import { queries } from '@graphql'
+import { ssrChannelPropsQuery } from '@apiServices'
 
 import { ChannelPageLayout } from '@components/Layout'
 
 const PubliChannel = ({ currentChannel, channelMessages, isPrivateChannel })  => {
-  console.log(currentChannel, channelMessages)
-
   return (
     <ChannelPageLayout
       currentChannel={currentChannel}
@@ -20,7 +18,7 @@ const PubliChannel = ({ currentChannel, channelMessages, isPrivateChannel })  =>
 export const getServerSideProps = async ({ req, params }) => {
   const isPrivateChannel = true
   const { Auth, API } = withSSRContext({ req })
-
+  Auth.configure({ ...awsconfig })
   const channelId = params.pid
   let authMode = 'AMAZON_COGNITO_USER_POOLS'
 
@@ -38,40 +36,11 @@ export const getServerSideProps = async ({ req, params }) => {
   }
   //fetch data
   try {
-    const channelRes = await API.graphql({
-      query: queries.getChannel,
-      variables: { id: channelId },
-      authMode
-    })
-
-    const messagesRes = await API.graphql({
-      query: queries.messagesByChannel,
-      variables: {
-        channelMessagesId: channelId,
-        limit: 50,
-        sortDirection: 'DESC'
-      },
-      authMode
-    })
-
-    if (!channelRes.data || !channelRes.data.getChannel) {
-      return {
-        redirect: {
-          permanent: false,
-          destination: '/404',
-        }
-      }
-    }
-
-    return {
-      props: {
-        isPrivateChannel,
-        currentChannel: channelRes.data.getChannel,
-        channelMessages: messagesRes.data.messagesByChannel.items || []
-      },
-    }
-  } catch (error) {
-    console.log(error)
+    return await ssrChannelPropsQuery(
+      API, authMode, isPrivateChannel, channelId
+    )
+  } catch (e) {
+    console.log(e)
     return {
       redirect: {
         permanent: false,

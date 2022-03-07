@@ -7,7 +7,7 @@ import { MemberContext } from '@context'
 import { COLORS } from '@constants'
 
 import { NavContent } from '@components/Layout'
-import { Heading, IconButton, Text } from '@components/Styled'
+import { Heading, IconButton, Text, ScrollWrapper } from '@components/Styled'
 import UserComponent from '@components/User'
 
 
@@ -26,31 +26,36 @@ const ChannelInfo = ({ changeNavView, currentChannel }) => {
           <Heading>All channels</Heading>
         </IconButton>
       </HeadingWrapper>
-      <NavContent>
-        <InfoWrapper>
+      <ScrollWrapper>
+        <NavContent>
+          <InfoWrapper>
+            <Heading
+              transform='uppercase'
+              style={{ marginBottom: '24px' }}
+            >
+              {currentChannel.name}
+            </Heading>
+            <Text>{currentChannel.description}</Text>
+          </InfoWrapper>
           <Heading transform='uppercase'>
-            {currentChannel.name}
+            Members
           </Heading>
-          <Text>{currentChannel.description}</Text>
-        </InfoWrapper>
-        <Heading transform='uppercase'>
-          Members
-        </Heading>
-        {Object.values(activeMembers).map(aMember =>
-          <UserComponent
-            key={aMember.id}
-            user={aMember}
-            active={true}
-          />
-        )}
-        {Object.values(inactiveMembers).map(iMember =>
-          <UserComponent
-            key={iMember.id}
-            user={iMember}
-            active={false}
-          />
-        )}
-      </NavContent>
+          {Object.values(activeMembers).map(aMember =>
+            <UserComponent
+              key={aMember.id}
+              user={aMember}
+              active={true}
+            />
+          )}
+          {Object.values(inactiveMembers).map(iMember =>
+            <UserComponent
+              key={iMember.id}
+              user={iMember}
+              active={false}
+            />
+          )}
+        </NavContent>
+      </ScrollWrapper>
     </>
   )
 }

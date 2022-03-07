@@ -7,6 +7,7 @@ import { COLORS } from '@constants'
 import { newMessageMutation } from '@apiServices'
 import { UserContext } from '@context'
 
+import { SignInOrUp } from '@components/User'
 import {
   DefaultInput,
   DefaultInputWrapper,
@@ -36,7 +37,9 @@ const MessageInput = ({ currentChannel, isPrivateChannel }) => {
   if (authMode === 'AWS_IAM') {
     return (
       <Wrapper>
-        <p>Please login to participate</p>
+        <SignInOrUp
+          text='to participate'
+        />
       </Wrapper>
     )
   }

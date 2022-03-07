@@ -9,13 +9,18 @@ Amplify Params - DO NOT EDIT */
 const aws = require('aws-sdk');
 const ddb = new aws.DynamoDB();
 
+const randomFromInterval = (min, max) => {
+  return Math.floor(Math.random() * (max - min + 1) + min)
+}
+
 exports.handler = async (event, context) => {
     
   let date = new Date();
+  const hue = randomFromInterval(150, 270);
+  const saturation = randomFromInterval(10, 35);
+  const hslString = `hsl(${hue},${saturation}%,45%)`;
 
   if (event.request.userAttributes.sub) {
-    console.log(event)
-    console.log(context)
     let params = {
         Item: {
           'id': {S: event.request.userAttributes.sub},
@@ -24,6 +29,7 @@ exports.handler = async (event, context) => {
           'username': {S: event.userName},
           'createdAt': {S: date.toISOString()},
           'updatedAt': {S: date.toISOString()},
+          'avatarColor': {S: hslString}
         },
         TableName: process.env.API_CHATGROUP_MEMBERTABLE_NAME
       };

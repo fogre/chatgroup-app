@@ -20,6 +20,7 @@ export const ChannelPageLayout = ({ currentChannel, channelMessages, isPrivateCh
       currentChannel={currentChannel}
       channelMessages={channelMessages}
       isPrivateChannel={isPrivateChannel}
+      key={currentChannel.id}
     >
       <>
         <Main>

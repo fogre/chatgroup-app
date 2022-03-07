@@ -11,10 +11,12 @@ export const MemberProvider = ({ currentChannel, channelMessages, isPrivateChann
   //used in MessageList to check if a member is updated
   const allMembers = { ...activeMembers, ...inactiveMembers }
 
+  //Update member based on most recent channel messages
   useEffect(() => {
     updateMembers(channelMessages)
   }, [channelMessages])
 
+  //Add to activeMembers and remove from inactiveMembers if necessary
   const addToActiveMembers = user => {
     if (!activeMembers[user.id]) {
       setActiveMembers(activeMembers => {
@@ -34,9 +36,11 @@ export const MemberProvider = ({ currentChannel, channelMessages, isPrivateChann
     }
   }
 
-  /*Goes through 100 most recent messages.
-  Adds to active members if user's message was sent within 10 minutes
-  Otherwise adds to inactive members*/
+  /*
+    Goes through 100 most recent messages.
+    Adds to active members if user's message was sent within 10 minutes
+    Otherwise adds to inactive members
+  */
   const updateMembers = messages => {
     if (!messages || !messages.length) {
       return

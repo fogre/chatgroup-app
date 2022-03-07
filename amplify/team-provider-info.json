@@ -18,11 +18,11 @@
       "function": {
         "chatgroupCreateMemberOnSingUp": {
           "deploymentBucketName": "amplify-chatgroup-dev-161126-deployment",
-          "s3Key": "amplify-builds/chatgroupCreateMemberOnSingUp-65636d38692b46427243-build.zip"
+          "s3Key": "amplify-builds/chatgroupCreateMemberOnSingUp-6d6930636e61336f7a41-build.zip"
         },
         "S3Trigger22f95379": {
           "deploymentBucketName": "amplify-chatgroup-dev-161126-deployment",
-          "s3Key": "amplify-builds/S3Trigger22f95379-7674744869734e544c6d-build.zip"
+          "s3Key": "amplify-builds/S3Trigger22f95379-316c6338385359643774-build.zip"
         }
       }
     }
