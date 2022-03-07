@@ -10,7 +10,7 @@ import { Heading, Text, PaddedTextButton } from '@components/Styled'
 
 const DeleteUserModal = ({ openModal, setOpenModal }) => {
   const router = useRouter()
-  const { user } = useContext(UserContext)
+  const { user, deleteUser } = useContext(UserContext)
 
   const handleDeletion = async () => {
     try {
@@ -20,6 +20,7 @@ const DeleteUserModal = ({ openModal, setOpenModal }) => {
         await Storage.remove(`${attributes.sub}-avatar.png`, { level: 'protected' })
         Cache.removeItem(user.avatarUrl)
       }
+      await deleteUser()
       await Auth.deleteUser()
       await router.push('/signup')
     } catch(e) {

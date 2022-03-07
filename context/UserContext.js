@@ -90,12 +90,25 @@ export const UserProvider = ({ children }) => {
     }
   }
 
+  const deleteUser = async () => {
+    try {
+      await updateUserMutation({
+        ...user,
+        avatarUrl: '',
+        avatarColor: 'transparent'
+      })
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   return (
     <UserContext.Provider value={{
       authMode,
       user,
       setLoggedUser,
-      updateUserAvatar
+      updateUserAvatar,
+      deleteUser
     }}>
       {children}
     </UserContext.Provider>
