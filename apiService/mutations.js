@@ -47,7 +47,6 @@ export const newMessageMutation = async (variables, isPrivate = true) => {
     }
 
   queryParams.variables.input.content = variables.messageText
-  console.log(queryParams)
 
   return apiMutation(queryParams)
 }

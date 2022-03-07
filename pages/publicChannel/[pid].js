@@ -1,4 +1,4 @@
-import Amplify, { withSSRContext } from 'aws-amplify'
+import { withSSRContext } from 'aws-amplify'
 import awsconfig from '../../aws-exports'
 
 import { ssrChannelPropsQuery } from '@apiServices'

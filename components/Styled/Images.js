@@ -40,9 +40,9 @@ export const UserAvatar = ({ user }) => {
     }
     getImageUrl()
   }, [user])
-
+  
   return (
-    <AvatarWrapper color={user.avatarColor ? user.avatarColor : COLORS.primary}>
+    <AvatarWrapper color={user && user.avatarColor ? user.avatarColor : COLORS.primary}>
       {imageUrl
         ? <UserAvatarImage
           src={imageUrl}
