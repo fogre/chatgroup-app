@@ -1,10 +1,10 @@
-import { useState, useEffect, useContext, useCallback, memo } from 'react'
+import { useState, useEffect, useContext, memo } from 'react'
 import styled from 'styled-components'
 
 import { COLORS, QUERIES } from '@constants'
 import { UserContext, MemberContext } from '@context'
 import { newMessageSubscription } from '@apiServices'
-import { useInterval, AlwaysScrollToBottom } from '@utils/customHooks'
+import { useInterval } from '@utils/customHooks'
 import { getUserAvatarUrl } from '@utils/avatarCache'
 
 import {

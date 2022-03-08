@@ -5,8 +5,6 @@ import Navigation from './Navigation'
 import {
   Main,
   MainHeading,
-  MainContent,
-  Nav
 } from './LayoutComponents'
 
 export const CenteredMainLayout = ({ pageName, children }) => {

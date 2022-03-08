@@ -46,7 +46,7 @@ const MessageInput = ({ currentChannel, isPrivateChannel }) => {
 
   return (
     <Wrapper>
-      <form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit}>
         <DefaultInputWrapper height={'52px'}>
           <DefaultInput
             placeholder='Type a message here'
@@ -69,19 +69,27 @@ const MessageInput = ({ currentChannel, isPrivateChannel }) => {
             />
           </IconButton>
         </DefaultInputWrapper>
-      </form>
+      </Form>
     </Wrapper>
   )
 }
 
 const Wrapper = styled.div`
+  align-items: center;
   background-color: ${COLORS.black.medium};
-  position: sticky;
-  left: 0;
   bottom: 0;
-  width: 100%;
-  height: 60px;
+  display: flex;
+  height: var(--header-height);
+  left: 0;
   padding: 0 var(--padding-main);
+  position: sticky;
+  width: 100%;
+  z-index: var(--fixed-z-index);
+`
+
+const Form = styled.form`
+  width: 100%;
+  box-shadow: 0 -6px 10px -8px rgba(0,0,0,0.75);
 `
 
 export default MessageInput

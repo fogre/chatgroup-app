@@ -9,7 +9,6 @@ import {
   Main,
   MainHeading,
   MainContent,
-  Nav
 } from './LayoutComponents'
 
 export const ChannelPageLayout = ({ currentChannel, channelMessages, isPrivateChannel }) =>  {

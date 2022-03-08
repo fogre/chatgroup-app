@@ -5,7 +5,7 @@ import { Heading, UserAvatar } from '@components/Styled'
 const UserComponent = ({ user, active }) => (
   <Wrapper active={active}>
     <UserAvatar user={user} />
-    <Heading color='dark'>{user.username}</Heading>
+    <Heading color='medium'>{user.username}</Heading>
   </Wrapper>
 )
 

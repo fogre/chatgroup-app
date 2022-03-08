@@ -20,11 +20,14 @@ export const getUserAvatarUrl = async user => {
 }
 
 export const getCachedAvatarUrl = async user => {
-  const cachedImageUrl = Cache.getItem(user.avatarUrl)
+  if (user) {
+    const cachedImageUrl = Cache.getItem(user.avatarUrl)
 
-  if (cachedImageUrl) {
-    return cachedImageUrl
+    if (cachedImageUrl) {
+      return cachedImageUrl
+    }
+
+    return await getUserAvatarUrl(user)
   }
-
-  return await getUserAvatarUrl(user)
+  return null
 }

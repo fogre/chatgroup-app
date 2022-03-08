@@ -81,6 +81,7 @@ export const UserProvider = ({ children }) => {
       const { identityId } = await Auth.currentUserCredentials()
       const { data } = await updateUserMutation({
         ...user,
+        avatarColor: 'transparent',
         avatarUrl: identityId
       })
       setAvatarUrlToCache(identityId, imageUrl)
@@ -94,7 +95,7 @@ export const UserProvider = ({ children }) => {
     try {
       await updateUserMutation({
         ...user,
-        avatarUrl: '',
+        avatarUrl: null,
         avatarColor: 'transparent'
       })
     } catch (e) {

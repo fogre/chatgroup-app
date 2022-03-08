@@ -11,6 +11,7 @@ const PubliChannel = ({ currentChannel, channelMessages, isPrivateChannel })  =>
       currentChannel={currentChannel}
       channelMessages={channelMessages}
       isPrivateChannel={isPrivateChannel}
+      key={currentChannel.id}
     />
   )
 }

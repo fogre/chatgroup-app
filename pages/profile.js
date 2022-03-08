@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from 'react'
-import { Cache, Storage } from 'aws-amplify'
+import { Storage } from 'aws-amplify'
 import { useRouter } from 'next/router'
 import styled from 'styled-components'
 
@@ -23,6 +23,7 @@ import {
 const ProfilePage = () => {
   const router = useRouter()
   const { user, updateUserAvatar } = useContext(UserContext)
+  const [avatarUploading, setAvatarUploading] = useState(false)
   const [openDeleteModal, setOpenDeleteModal] = useState(false)
 
   useEffect(() => {
@@ -34,17 +35,21 @@ const ProfilePage = () => {
   const handleAvatarUpload = async e => {
     e.preventDefault()
     try {
-      const res = await Storage.put(`${user.id}.png`, e.target.files[0], {
+      setAvatarUploading(true)
+      await Storage.put(`${user.id}.png`, e.target.files[0], {
         level: 'protected',
         contentType: 'image/png'
       })
+
       setTimeout(async () => {
         const imageUrl = await Storage.get(`${user.id}-avatar.png`, {
           level: 'protected'
         })
         await updateUserAvatar(imageUrl)
-      }, [1000])
+        setAvatarUploading(false)
+      }, [3000])
     } catch(e) {
+      setAvatarUploading(false)
       console.log(e)
     }
   }
@@ -64,13 +69,15 @@ const ProfilePage = () => {
         </Heading>
         <FlexWrapper>
           <UserAvatar user={user} />
-          <FileInput
-            id='avatarImage'
-            name='avatar image'
-            text={user.avatarUrl ? 'Change avatar' : 'Upload avatar'}
-            fileTypes='image/png,image/jpeg'
-            handleChange={e => handleAvatarUpload(e)}
-          />
+          {avatarUploading
+            ? <Text color='primary'>Uploading...</Text>
+            : <FileInput
+              id='avatarImage'
+              name='avatar image'
+              text={user.avatarUrl ? 'Change avatar' : 'Upload avatar'}
+              fileTypes='image/png,image/jpeg'
+              handleChange={e => handleAvatarUpload(e)}
+            />}
         </FlexWrapper>
         <LineSpacerWrapper>
           <LineSpacer />
@@ -104,8 +111,13 @@ const Wrapper = styled.div`
   border-radius: var(--border-radius-large);
   text-align: center;
 
+  @media ${QUERIES.tablet} {
+    max-width: 270px;
+  }
+
   @media ${QUERIES.mobile} {
-    border: none;
+    max-width: 250px;
+    border: transparent;
   }
 `
 

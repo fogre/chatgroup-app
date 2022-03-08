@@ -7,7 +7,7 @@ import {
 
 import { COLORS, QUERIES } from '@constants'
 
-import { Text, Heading, IconButton } from '@components/Styled'
+import { Heading, IconButton } from '@components/Styled'
 
 export const MainHeading = ({ pageName, toggleNav, setToggleNav }) => (
   <MainHeader>
@@ -100,7 +100,7 @@ export const MainHeaderContent = styled.div`
 `
 
 export const MainContent = styled.div`
-  padding: var(--padding-top) var(--padding-main);
+  padding: 0 var(--padding-main);
   width: 100%;
   min-height: var(--content-height);
   max-height: var(--content-height);
