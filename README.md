@@ -1,34 +1,32 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Chatgroup app
+A group chat web app built with Next.js and AWS Amplify CLI.
 
-## Getting Started
+[**Production Demo**](https://main.d2ky15by9x4y7q.amplifyapp.com/)
 
-First, run the development server:
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+## The challenge
+Based on the devChallenge's chat group challenge. You can read the user stories and see the Figma design [here.](https://devchallenges.io/challenges/UgCqszKR7Q7oqb4kRfI0)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**Additional user stories:**
+- Some channels are public and some members only
+- Unauthenticated users can only read public channels
+- Authenticated users can send messages and create new members only chat groups
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+## Install?
+As this project is based on private Amplify environment, the project cannot be installed just by cloning the repository. You'd have to create and AWS account, install Amplify-CLI and set up your own Amplify project.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+This project uses:
+- Cognito User Pool for authenticated API access.
+- I_AM for unautenticated API access
+- GraphQL API Gateway for DynamoDB
+- S3 storage
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## Links
+- [Demo](https://main.d2ky15by9x4y7q.amplifyapp.com/)
+- [AWS Amplify](https://aws.amazon.com/amplify/)
+- [Next.js](https://nextjs.org/)
+- [devChallenges](https://devchallenges.io/)
 
-## Learn More
+## License
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+[MIT](https://joinup.ec.europa.eu/licence/mit-license)

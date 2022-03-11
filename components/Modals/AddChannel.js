@@ -1,4 +1,5 @@
 import { useState, useContext } from 'react'
+import { useRouter } from 'next/router'
 import styled from 'styled-components'
 
 import { COLORS } from '@constants'
@@ -34,6 +35,7 @@ const FormErrorText = ({ errorText }) => {
 }
 
 const AddChannel = ({ openModal, setOpenModal }) => {
+  const router = useRouter()
   const { authMode } = useContext(UserContext)
   const [channelName, setChannelName] = useState('')
   const [channelDescription, setChannelDescription] = useState('')
@@ -62,11 +64,11 @@ const AddChannel = ({ openModal, setOpenModal }) => {
       if (channelDescription.length) {
         newChannel.description = channelDescription
       }
-      const res = await createChannelMutation(newChannel)
-      console.log(res)
+      const { data } = await createChannelMutation(newChannel)
       setChannelName('')
       setChannelDescription('')
       setErrors({})
+      await router.push(`/channel/${data.createChannel.id}`)
       setOpenModal(false)
     } catch(e) {
       console.log(e)

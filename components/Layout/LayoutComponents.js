@@ -7,7 +7,7 @@ import {
 
 import { COLORS, QUERIES } from '@constants'
 
-import { Heading, IconButton } from '@components/Styled'
+import { Heading, IconButton, fadeInAnimation } from '@components/Styled'
 
 export const MainHeading = ({ pageName, toggleNav, setToggleNav }) => (
   <MainHeader>
@@ -76,6 +76,7 @@ export const Main = styled.main`
   grid-area: main;
   width: 100%;
   position: relative;
+  animation: 1s 1 ${fadeInAnimation}
 `
 
 export const MainHeader = styled.header`
@@ -107,6 +108,7 @@ export const MainContent = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+
 `
 
 export const Nav = styled.nav`
@@ -132,6 +134,7 @@ export const NavContent = styled.div`
   padding: var(--padding-top) var(--padding-nav);
   overflow-y: scroll;
   overflow-x: hidden;
+  animation: 1s 1 ${fadeInAnimation}
 `
 
 export const ToggleNavWrapper = styled.div`
