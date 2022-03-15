@@ -1,3 +1,4 @@
+import Head from 'next/head'
 import Amplify from 'aws-amplify'
 import { Authenticator } from '@aws-amplify/ui-react'
 
@@ -14,16 +15,22 @@ Amplify.configure({
 
 const App = ({ Component, pageProps }) => {
   return (
-    <Authenticator.Provider>
-      <GlobalStyles />
-      <GridLayoutWrapper>
-        <UserProvider>
-          <ChannelProvider>
-            <Component {...pageProps} />
-          </ChannelProvider>
-        </UserProvider>
-      </GridLayoutWrapper>
-    </Authenticator.Provider>
+    <>
+      <Head>
+        <title>Chatgroup</title>
+        <meta name='description' content='The 1# chat group website for chatting' />
+      </Head>
+      <Authenticator.Provider>
+        <GlobalStyles />
+        <GridLayoutWrapper>
+          <UserProvider>
+            <ChannelProvider>
+              <Component {...pageProps} />
+            </ChannelProvider>
+          </UserProvider>
+        </GridLayoutWrapper>
+      </Authenticator.Provider>
+    </>
   )
 }
 

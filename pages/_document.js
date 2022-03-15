@@ -6,6 +6,7 @@ export default class MyDocument extends Document {
     return (
       <Html>
         <Head>
+          <meta charSet="UTF-8" />
           <link
             href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300..700&display=swap"
             rel="stylesheet"
